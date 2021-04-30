@@ -19,11 +19,13 @@ class Coins extends React.Component {
     constructor(props) {
         super(props);
         this.state = {playerCoins: 0};
+        this.incrementCoins = this.incrementCoins.bind(this);
     }
 
-    incrementCoins = () => {
+    incrementCoins() {
         this.setState({playerCoins: this.state.playerCoins + 1});
     }
+
     render() {
         return (
             <div>
