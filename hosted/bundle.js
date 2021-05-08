@@ -19,12 +19,57 @@ class Coins extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playerCoins: 0
+      playerCoins: 0,
+      coinPower: 1,
+      storeMessage: "Keep Making Me Money!",
+      coinPowerPrice: 20,
+      warioUrl: "/assets/img/warioIdle.gif"
     };
     this.incrementCoins = this.incrementCoins.bind(this);
+    this.incrementCoinPower = this.incrementCoinPower.bind(this);
+    this.incrementCoinsTimer = this.incrementCoinsTimer.bind(this);
   }
 
   incrementCoins() {
+    this.setState({
+      playerCoins: this.state.playerCoins + this.state.coinPower
+    });
+    this.setState({
+      storeMessage: "Keep Making Me Money!"
+    });
+    this.setState({
+      warioUrl: "/assets/img/warioIdle.gif"
+    });
+  }
+
+  incrementCoinPower() {
+    if (this.state.playerCoins >= this.state.coinPowerPrice) {
+      this.setState({
+        coinPower: this.state.coinPower + 1
+      });
+      this.setState({
+        playerCoins: this.state.playerCoins - this.state.coinPowerPrice
+      });
+      this.setState({
+        coinPowerPrice: this.state.coinPowerPrice * 2
+      });
+      this.setState({
+        storeMessage: "WAHAHA! Purchase Successful!"
+      });
+      this.setState({
+        warioUrl: "/assets/img/warioPurchase.gif"
+      });
+    } else {
+      this.setState({
+        storeMessage: "WAAAH! Too Poor!"
+      });
+      this.setState({
+        warioUrl: "/assets/img/warioPoor.gif"
+      });
+    }
+  }
+
+  incrementCoinsTimer() {
     this.setState({
       playerCoins: this.state.playerCoins + 1
     });
@@ -35,7 +80,15 @@ class Coins extends React.Component {
         src: "/assets/img/face.png",
         id: "clickerImg",
         onClick: this.incrementCoins
-      }), /*#__PURE__*/React.createElement("h2", null, "Coins: ", this.state.playerCoins))
+      }), /*#__PURE__*/React.createElement("h2", null, "Coins: ", this.state.playerCoins), /*#__PURE__*/React.createElement("h2", null, "Coin Power: ", this.state.coinPower), /*#__PURE__*/React.createElement("div", {
+        id: "store"
+      }, /*#__PURE__*/React.createElement("button", {
+        onClick: this.incrementCoinPower
+      }, "Coin Power +1: ", this.state.coinPowerPrice, " Coins")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", {
+        id: "message"
+      }, /*#__PURE__*/React.createElement("img", {
+        src: this.state.warioUrl
+      }), /*#__PURE__*/React.createElement("h3", null, this.state.storeMessage)), /*#__PURE__*/React.createElement("br", null))
     );
   }
 

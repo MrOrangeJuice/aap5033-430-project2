@@ -18,11 +18,41 @@ const handleDomo = (e) => {
 class Coins extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {playerCoins: 0};
+        this.state = {
+            playerCoins: 0,
+            coinPower: 1,
+            storeMessage: "Keep Making Me Money!",
+            coinPowerPrice: 20,
+            warioUrl: "/assets/img/warioIdle.gif"
+        };
         this.incrementCoins = this.incrementCoins.bind(this);
+        this.incrementCoinPower = this.incrementCoinPower.bind(this);
+        this.incrementCoinsTimer = this.incrementCoinsTimer.bind(this);
     }
 
     incrementCoins() {
+        this.setState({playerCoins: this.state.playerCoins + this.state.coinPower});
+        this.setState({storeMessage: "Keep Making Me Money!"});
+        this.setState({warioUrl: "/assets/img/warioIdle.gif"});
+    }
+
+    incrementCoinPower() {
+        if(this.state.playerCoins >= this.state.coinPowerPrice)
+        {
+            this.setState({coinPower: this.state.coinPower + 1});
+            this.setState({playerCoins: this.state.playerCoins - this.state.coinPowerPrice});
+            this.setState({coinPowerPrice: this.state.coinPowerPrice * 2});
+            this.setState({storeMessage: "WAHAHA! Purchase Successful!"});
+            this.setState({warioUrl: "/assets/img/warioPurchase.gif"});
+        }
+        else
+        {
+            this.setState({storeMessage: "WAAAH! Too Poor!"});
+            this.setState({warioUrl: "/assets/img/warioPoor.gif"});
+        }
+    }
+
+    incrementCoinsTimer() {
         this.setState({playerCoins: this.state.playerCoins + 1});
     }
 
@@ -31,6 +61,16 @@ class Coins extends React.Component {
             <div>
                 <img src="/assets/img/face.png" id="clickerImg" onClick={this.incrementCoins}></img>
                 <h2>Coins: {this.state.playerCoins}</h2>
+                <h2>Coin Power: {this.state.coinPower}</h2>
+                <div id="store">
+                    <button onClick={this.incrementCoinPower}>Coin Power +1: {this.state.coinPowerPrice} Coins</button>
+                </div>
+                <br></br>
+                <div id="message">
+                    <img src={this.state.warioUrl}></img>
+                    <h3>{this.state.storeMessage}</h3>
+                </div>
+                <br></br>
             </div>
         );
     }

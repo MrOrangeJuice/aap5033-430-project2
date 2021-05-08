@@ -27,6 +27,9 @@ const AccountSchema = new mongoose.Schema({
   coins: {
     type: Number,
   },
+  coinPower: {
+    type: Number,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
