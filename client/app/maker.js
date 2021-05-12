@@ -29,12 +29,14 @@ class Coins extends React.Component {
         this.reset = this.reset.bind(this);
     }
 
+    // Increment coins
     incrementCoins() {
         this.setState({playerCoins: this.state.playerCoins + (this.state.coinPower * this.state.premiumMultiplier)});
         this.setState({storeMessage: "Keep Making Me Money!"});
         this.setState({warioUrl: "/assets/img/warioIdle.gif"});
     }
 
+    // Increment Click Power
     incrementCoinPower() {
         if(this.state.playerCoins >= this.state.coinPowerPrice)
         {
@@ -55,6 +57,7 @@ class Coins extends React.Component {
         this.setState({playerCoins: this.state.playerCoins + 1});
     }
 
+    // Add auto coin block
     incrementCoinBlocks() {
         if(this.state.playerCoins >= this.state.coinBlockPrice)
         {
@@ -72,6 +75,7 @@ class Coins extends React.Component {
         }
     }
 
+    // Activate premium subscription
     activatePremium() {
         if(this.state.premiumMultiplier == 1)
         {
@@ -89,6 +93,7 @@ class Coins extends React.Component {
         }
     }
 
+    // Save progress
     save() {
         let jsonObj = {
             _csrf: this.state.csrf,
@@ -104,6 +109,7 @@ class Coins extends React.Component {
         });
     }
 
+    // Reset progress
     reset() {
         this.setState({
             playerCoins: 0,
@@ -121,9 +127,10 @@ class Coins extends React.Component {
         this.setState({warioUrl: "/assets/img/warioReset.gif"});
     }
 
+    // Load account progress
     componentDidMount() {
-        console.log("Running");
         sendAjax('GET', "/getUser", null, (data) => {
+            // Load in data
             this.setState({
                 playerCoins: data.coins,
                 coinPower: data.coinPower,
@@ -133,24 +140,24 @@ class Coins extends React.Component {
                 premiumMultiplier: data.premiumMultiplier,
             });
 
+            // Remake coin blocks
             for(let i = 0; i < this.state.coinBlocks; i++)
             {
-                console.log("Loop");
                 this.state.coinBlockObjects.push(<img src="/assets/img/coinGif.gif" className="blockGif" width="32px" height="128px"></img>);
             }
     
+            // Resetup premium button
             if(this.state.premiumMultiplier == 1)
             {
-                console.log("premium deactivated");
                 this.setState({premiumMessage: "Activate Premium (x2 Multiplier)"});
             }
             else if(this.state.premiumMultiplier == 2)
             {
-                console.log("premium activated");
                 this.setState({premiumMessage: "Deactivate Premium"});
             }
         });
         
+        // Set timer for auto coin function
         setInterval(() => this.setState({ playerCoins: this.state.playerCoins + (this.state.coinBlocks * this.state.premiumMultiplier)}), 1000);
     }
 
@@ -158,6 +165,7 @@ class Coins extends React.Component {
         clearInterval(this.interval);
     }
 
+    // Render clicker game
     render() {
         return (
             <div>
@@ -205,26 +213,6 @@ class Ad extends React.Component {
         );
     }
 }
-
-const DomoForm = (props) => {
-    return (
-        <form id="domoForm"
-            onSubmit={handleDomo}
-            name="domoForm"
-            action="/maker"
-            method="POST"
-            className="domoForm"
-        >
-        
-            <label htmlFor="name">Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="text" name="age" placeholder="Domo Age" />
-            <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
-        </form>
-    );
-};
 
 const setup = function(csrf) {
    ReactDOM.render(

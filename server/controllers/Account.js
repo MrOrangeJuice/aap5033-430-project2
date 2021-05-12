@@ -94,6 +94,7 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+// Save data to account
 const save = (request, response) => {
   Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
       var userAccount = doc;
@@ -119,6 +120,7 @@ const save = (request, response) => {
   });
 }
 
+// Return user data
 const getUser = (request, response) => {
   Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
     var userAccount = {

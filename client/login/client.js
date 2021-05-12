@@ -35,6 +35,7 @@ const handleSignup = (e) => {
     return false;
 };
 
+// Login page
 const LoginWindow = (props) => {
     return (
         <form id="loginForm" name="loginForm"
@@ -54,6 +55,7 @@ const LoginWindow = (props) => {
     );
 };
 
+// Signup window
 const SignupWindow = (props) => {
     return (
         <form id="signupForm"
@@ -89,6 +91,7 @@ const createSignupWindow = (csrf) => {
     );
 };
 
+// Setup buttons
 const setup = (csrf) => {
     const loginButton = document.querySelector("#loginButton");
     const signupButton = document.querySelector("#signupButton");

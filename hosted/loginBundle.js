@@ -32,7 +32,8 @@ const handleSignup = e => {
 
   sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
   return false;
-};
+}; // Login page
+
 
 const LoginWindow = props => {
   return (/*#__PURE__*/React.createElement("form", {
@@ -66,7 +67,8 @@ const LoginWindow = props => {
       value: "Sign In"
     }))
   );
-};
+}; // Signup window
+
 
 const SignupWindow = props => {
   return (/*#__PURE__*/React.createElement("form", {
@@ -119,7 +121,8 @@ const createSignupWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; // Setup buttons
+
 
 const setup = csrf => {
   const loginButton = document.querySelector("#loginButton");
