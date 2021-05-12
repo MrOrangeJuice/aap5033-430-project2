@@ -90,8 +90,42 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+const save = (request, response) => {
+  Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
+      var userAccount = doc;
+      userAccount.coins = request.body.playerCoins;
+
+      const savePromise = userAccount.save();
+
+      savePromise.then(() => {
+          request.session.account = Account.AccountModel.toAPI(userAccount);
+          return response.json({ redirect: '/maker' });
+      });
+
+      savePromise.catch((err) => {
+          console.log(err);
+    
+          return response.status(400).json({ error: 'WAAAH! An error occured' });
+        });
+  });
+}
+
+const getUser = (request, response) => {
+  Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
+    var userAccount = {
+      username: doc.username,
+      coins: doc.coins
+    }
+
+    response.status(200);
+    return response.json(userAccount);
+  });
+}
+
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+module.exports.save = save;
+module.exports.getUser = getUser;

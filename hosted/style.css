@@ -23,13 +23,18 @@ h2 {
     width: 20%;
     margin-left: 40%;
     transition-duration: 0.2s;
-    margin-top: 100px;
+    margin-top: 120px;
+    margin-bottom: 0 auto;
 }
 
 #clickerImg:hover {
     transition-duration: 0.2s;
-    width: 22%;
-    margin-left: 39%;
+    transform: scale(1.1);
+}
+
+#clickerImg:active {
+    transform: scale(1.0);
+    transition-duration: 0.2s;
 }
 
 #logo {
@@ -309,6 +314,7 @@ button {
     transition-duration: 0.2s;
     font-family: 'Press Start 2P', cursive;
     padding: 10px;
+    margin: 5px;
 }
 
 button:hover {
@@ -324,4 +330,18 @@ button:hover {
 #message > img {
     width: 250px;
     height: 250px;
+}
+
+#blocks {
+    background-color: #6E2594;
+    border-radius: 5px;
+    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 60%;
+    margin-left: 20%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
