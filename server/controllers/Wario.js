@@ -1,9 +1,9 @@
 const models = require('../models');
 
-const { Domo } = models;
+const { Wario } = models;
 
 const makerPage = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  Wario.WarioModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
