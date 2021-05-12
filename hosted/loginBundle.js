@@ -63,7 +63,7 @@ const LoginWindow = props => {
     }), /*#__PURE__*/React.createElement("input", {
       className: "formSubmit",
       type: "submit",
-      value: "Sign in"
+      value: "Sign In"
     }))
   );
 };
@@ -102,7 +102,7 @@ const SignupWindow = props => {
       name: "_csrf",
       value: props.csrf
     }), /*#__PURE__*/React.createElement("input", {
-      className: "forSubmit",
+      className: "formSubmit",
       type: "submit",
       value: "Sign Up"
     }))

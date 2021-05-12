@@ -99,7 +99,7 @@ nav:nth-child(1) {
 }
 
 .formSubmit {
-    transition: background-color 0.4s ease;
+    transition-duration: 0.2s;
     display: block;
     text-align: center;
     margin: 0 auto;
@@ -107,6 +107,7 @@ nav:nth-child(1) {
     font-size: 1.2em;
     width: 100px;
     background-color: #119DA4;
+    border: 0px;
     border-radius: 10px;
     padding: 3px 0px;
     color: white;
@@ -118,8 +119,8 @@ nav:nth-child(1) {
 }
 
 .formSubmit:hover {
-    transition: background-color 0.4s ease;
-    background-color: #ECD444;
+    transition-duration: 0.2s;
+    background-color: #6E2594;
 }
 
 #user, #pass, #pass2 {
@@ -233,6 +234,10 @@ button:hover {
     flex-wrap: wrap;
 }
 
-.titleImg {
-    width: 100px;
+#signupForm {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#loginForm {
+    font-family: Arial, Helvetica, sans-serif;
 }
