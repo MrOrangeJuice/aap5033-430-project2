@@ -193,6 +193,7 @@ nav:nth-child(1) {
     position: absolute;
     top: 0px;
     left: 20px;
+    font-size: 1em;
 }
 
 #speech {
@@ -325,6 +326,20 @@ button:hover {
 
 #message {
     text-align: center;
+}
+
+#controls {
+    background-color: #6E2594;
+    border-radius: 5px;
+    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 60%;
+    margin-left: 20%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 #message > img {

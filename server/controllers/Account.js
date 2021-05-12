@@ -55,6 +55,10 @@ const signup = (request, response) => {
       salt,
       coins: 0,
       coinPower: 1,
+      coinBlocks: 0,
+      premiumMultiplier: 1,
+      coinPowerPrice: 20,
+      coinBlockPrice: 50,
       password: hash,
     };
 
@@ -94,6 +98,11 @@ const save = (request, response) => {
   Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
       var userAccount = doc;
       userAccount.coins = request.body.playerCoins;
+      userAccount.coinPower = request.body.coinPower;
+      userAccount.coinBlocks = request.body.coinBlocks;
+      userAccount.premiumMultiplier = request.body.premiumMultiplier;
+      userAccount.coinPowerPrice = request.body.coinPowerPrice;
+      userAccount.coinBlockPrice = request.body.coinBlockPrice;
 
       const savePromise = userAccount.save();
 
@@ -114,7 +123,12 @@ const getUser = (request, response) => {
   Account.AccountModel.findByUsername(request.session.account.username, (error, doc) => {
     var userAccount = {
       username: doc.username,
-      coins: doc.coins
+      coins: doc.coins,
+      coinPower: doc.coinPower,
+      coinBlocks: doc.coinBlocks,
+      premiumMultiplier: doc.premiumMultiplier,
+      coinPowerPrice: doc.coinPowerPrice,
+      coinBlockPrice: doc.coinBlockPrice
     }
 
     response.status(200);

@@ -30,6 +30,18 @@ const AccountSchema = new mongoose.Schema({
   coinPower: {
     type: Number,
   },
+  coinBlocks: {
+    type: Number,
+  },
+  premiumMultiplier: {
+    type: Number,
+  },
+  coinPowerPrice: {
+    type: Number,
+  },
+  coinBlockPrice: {
+    type: Number,
+  },
   createdDate: {
     type: Date,
     default: Date.now,

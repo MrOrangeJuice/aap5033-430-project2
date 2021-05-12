@@ -1,20 +1,3 @@
-const handleDomo = e => {
-  e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
-
-  if ($("#domoName").val() == '' || $("domoAge").val() == '') {
-    handleError("RAWR! All fields are required");
-    return false;
-  }
-
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
-  });
-  return false;
-};
-
 const getRandomInt = max => {
   return Math.floor(Math.random() * max);
 };
@@ -40,9 +23,10 @@ class Coins extends React.Component {
     this.incrementCoinsTimer = this.incrementCoinsTimer.bind(this);
     this.incrementCoinBlocks = this.incrementCoinBlocks.bind(this);
     this.activatePremium = this.activatePremium.bind(this);
-    this.componentDidMount = this.componentDidMount(this);
-    this.componentWillUnmount = this.componentWillUnmount(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.save = this.save.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   incrementCoins() {
@@ -156,10 +140,30 @@ class Coins extends React.Component {
   save() {
     let jsonObj = {
       _csrf: this.state.csrf,
-      playerCoins: this.state.playerCoins
+      playerCoins: this.state.playerCoins,
+      coinPower: this.state.coinPower,
+      coinBlocks: this.state.coinBlocks,
+      premiumMultiplier: this.state.premiumMultiplier,
+      coinPowerPrice: this.state.coinPowerPrice,
+      coinBlockPrice: this.state.coinBlockPrice
     };
     sendAjax('POST', "/save", jsonObj, function () {
       console.log("Saved");
+    });
+  }
+
+  reset() {
+    this.setState({
+      playerCoins: 0,
+      coinPower: 1,
+      coinBlocks: 0,
+      coinBlockObjects: [],
+      storeMessage: "Keep Making Me Money!",
+      premiumMessage: "Activate Premium (x2 Multiplier)",
+      premiumMultiplier: 1,
+      coinPowerPrice: 20,
+      coinBlockPrice: 50,
+      warioUrl: "/assets/img/warioIdle.gif"
     });
   }
 
@@ -167,9 +171,37 @@ class Coins extends React.Component {
     console.log("Running");
     sendAjax('GET', "/getUser", null, data => {
       this.setState({
-        playerCoins: data.coins
+        playerCoins: data.coins,
+        coinPower: data.coinPower,
+        coinBlocks: data.coinBlocks,
+        coinPowerPrice: data.coinPowerPrice,
+        coinBlockPrice: data.coinBlockPrice,
+        premiumMultiplier: data.premiumMultiplier
       });
     });
+
+    for (let i = 0; i < this.state.coinBlocks; i++) {
+      console.log("Loop");
+      this.state.coinBlockObjects.push( /*#__PURE__*/React.createElement("img", {
+        src: "/assets/img/coinGif.gif",
+        className: "blockGif",
+        width: "32px",
+        height: "128px"
+      }));
+    }
+
+    if (this.state.premiumMultiplier == 1) {
+      console.log("premium deactivated");
+      this.setState({
+        premiumMessage: "Activate Premium (x2 Multiplier)"
+      });
+    } else if (this.state.premiumMultiplier == 2) {
+      console.log("premium activated");
+      this.setState({
+        premiumMessage: "Deactivate Premium"
+      });
+    }
+
     setInterval(() => this.setState({
       playerCoins: this.state.playerCoins + this.state.coinBlocks * this.state.premiumMultiplier
     }), 1000);
@@ -198,13 +230,17 @@ class Coins extends React.Component {
         id: "message"
       }, /*#__PURE__*/React.createElement("img", {
         src: this.state.warioUrl
-      }), /*#__PURE__*/React.createElement("h3", null, this.state.storeMessage)), /*#__PURE__*/React.createElement("form", null, /*#__PURE__*/React.createElement("input", {
+      }), /*#__PURE__*/React.createElement("h3", null, this.state.storeMessage)), /*#__PURE__*/React.createElement("div", {
+        id: "controls"
+      }, /*#__PURE__*/React.createElement("form", null, /*#__PURE__*/React.createElement("input", {
         type: "hidden",
         name: "_csrf",
         value: this.state.csrf
       }), /*#__PURE__*/React.createElement("button", {
         onClick: this.save
-      }, "Save")), /*#__PURE__*/React.createElement("br", null))
+      }, "Save")), /*#__PURE__*/React.createElement("button", {
+        onClick: this.reset
+      }, "Reset")), /*#__PURE__*/React.createElement("br", null))
     );
   }
 
@@ -258,57 +294,10 @@ const DomoForm = props => {
   );
 };
 
-const DomoList = function (props) {
-  if (props.domos.length === 0) {
-    return (/*#__PURE__*/React.createElement("div", {
-        className: "domoList"
-      }, /*#__PURE__*/React.createElement("h3", {
-        className: "emptyDomo"
-      }, "No Domos Yet"))
-    );
-  }
-
-  const domoNodes = props.domos.map(function (domo) {
-    return (/*#__PURE__*/React.createElement("div", {
-        key: domo._id,
-        className: "domo"
-      }, /*#__PURE__*/React.createElement("img", {
-        src: "/assets/img/domoface.jpeg",
-        alt: "domo face",
-        className: "domoFace"
-      }), /*#__PURE__*/React.createElement("h3", {
-        className: "domoName"
-      }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
-        className: "domoAge"
-      }, " Age: ", domo.age, " "))
-    );
-  });
-  return (/*#__PURE__*/React.createElement("div", {
-      className: "domoList"
-    }, domoNodes)
-  );
-};
-
-const loadDomosFromServer = () => {
-  sendAjax('GET', '/getDomos', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
-  });
-};
-
 const setup = function (csrf) {
-  /*
-  ReactDOM.render(
-      <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
-  );
-   ReactDOM.render(
-      <DomoList domos={[]} />, document.querySelector("#domos")
-  );
-  */
   ReactDOM.render( /*#__PURE__*/React.createElement(Coins, {
     csrf: csrf
-  }), document.querySelector("#coins")); //loadDomosFromServer();
+  }), document.querySelector("#coins"));
 };
 
 const getToken = () => {
