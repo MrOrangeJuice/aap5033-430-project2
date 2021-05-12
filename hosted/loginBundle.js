@@ -1,6 +1,6 @@
 const handleLogin = e => {
   e.preventDefault();
-  $("domoMessage").animate({
+  $("warioMessage").animate({
     width: 'hide'
   }, 350);
 
@@ -16,7 +16,7 @@ const handleLogin = e => {
 
 const handleSignup = e => {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#warioMessage").animate({
     width: 'hide'
   }, 350);
 
@@ -148,13 +148,13 @@ $(document).ready(function () {
 });
 const handleError = message => {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#warioMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 const redirect = response => {
-  $("#domoMessage").animate({
+  $("#warioMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
