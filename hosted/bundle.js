@@ -165,6 +165,12 @@ class Coins extends React.Component {
       coinBlockPrice: 50,
       warioUrl: "/assets/img/warioIdle.gif"
     });
+    this.setState({
+      storeMessage: "My Fortune! Data has been reset"
+    });
+    this.setState({
+      warioUrl: "/assets/img/warioReset.gif"
+    });
   }
 
   componentDidMount() {
@@ -178,30 +184,29 @@ class Coins extends React.Component {
         coinBlockPrice: data.coinBlockPrice,
         premiumMultiplier: data.premiumMultiplier
       });
+
+      for (let i = 0; i < this.state.coinBlocks; i++) {
+        console.log("Loop");
+        this.state.coinBlockObjects.push( /*#__PURE__*/React.createElement("img", {
+          src: "/assets/img/coinGif.gif",
+          className: "blockGif",
+          width: "32px",
+          height: "128px"
+        }));
+      }
+
+      if (this.state.premiumMultiplier == 1) {
+        console.log("premium deactivated");
+        this.setState({
+          premiumMessage: "Activate Premium (x2 Multiplier)"
+        });
+      } else if (this.state.premiumMultiplier == 2) {
+        console.log("premium activated");
+        this.setState({
+          premiumMessage: "Deactivate Premium"
+        });
+      }
     });
-
-    for (let i = 0; i < this.state.coinBlocks; i++) {
-      console.log("Loop");
-      this.state.coinBlockObjects.push( /*#__PURE__*/React.createElement("img", {
-        src: "/assets/img/coinGif.gif",
-        className: "blockGif",
-        width: "32px",
-        height: "128px"
-      }));
-    }
-
-    if (this.state.premiumMultiplier == 1) {
-      console.log("premium deactivated");
-      this.setState({
-        premiumMessage: "Activate Premium (x2 Multiplier)"
-      });
-    } else if (this.state.premiumMultiplier == 2) {
-      console.log("premium activated");
-      this.setState({
-        premiumMessage: "Deactivate Premium"
-      });
-    }
-
     setInterval(() => this.setState({
       playerCoins: this.state.playerCoins + this.state.coinBlocks * this.state.premiumMultiplier
     }), 1000);
@@ -311,13 +316,13 @@ $(document).ready(function () {
 });
 const handleError = message => {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#warioMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 const redirect = response => {
-  $("#domoMessage").animate({
+  $("#warioMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
